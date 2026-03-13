@@ -4,11 +4,12 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 import os
 from dotenv import load_dotenv
+import certifi
 
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI") # Matches .env case
-client = AsyncIOMotorClient(MONGO_URI)
+client = AsyncIOMotorClient(MONGO_URI, tlsCAFile=certifi.where())
 db = client["Testing"]
 testing_col = db["Testing_col"]
 
