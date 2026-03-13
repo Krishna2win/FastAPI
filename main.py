@@ -7,12 +7,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-Mongo_URI = os.getenv("Mongo_URI")
-client = AsyncIOMotorClient(Mongo_URI)
+MONGO_URI = os.getenv("MONGO_URI") # Matches .env case
+client = AsyncIOMotorClient(MONGO_URI)
 db = client["Testing"]
 testing_col = db["Testing_col"]
 
 app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"status": "running", "mongodb": "checking..." if MONGO_URI else "missing URI"}
 
 class Testing_data(BaseModel):
     name: str
